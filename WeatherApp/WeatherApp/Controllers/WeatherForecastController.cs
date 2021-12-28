@@ -4,7 +4,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using WeatherApp.Data.WebApi;
 
 namespace WeatherApp.Controllers
 {
@@ -27,7 +29,8 @@ namespace WeatherApp.Controllers
             { 30, "Sweltering" },
             { 40, "Scorching" },
         };
-        
+        //API call https://goweather.herokuapp.com/weather/{city}
+
         /*
             >40 == Scorching
             >30 == Sweltering
@@ -48,25 +51,45 @@ namespace WeatherApp.Controllers
             _logger = logger;
         }
 
-
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<WeatherForecast> GetAsync(string City)
         {
-            var rng = new Random();
-            int[] genTemp = {
-                rng.Next(-20, 55),
-                rng.Next(-20, 55),
-                rng.Next(-20, 55),
-                rng.Next(-20, 55),
-                rng.Next(-20, 55),
-            };
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            WeatherApi weatherApi = new();
+            weatherApi.InitializeClient();
+
+            //var rng = new Random();
+            //int[] genTemp = {
+            //    rng.Next(-20, 55),
+            //    rng.Next(-20, 55),
+            //    rng.Next(-20, 55),
+            //    rng.Next(-20, 55),
+            //    rng.Next(-20, 55),
+            //};
+            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            //{
+            //    Date = DateTime.Now.AddDays(index),
+            //    Temperature = genTemp[index-1].ToString(),
+            //    Summary = Summaries.Where(w => genTemp[index-1] >= w.Key).LastOrDefault().Value,
+            //})
+            //.ToArray();
+            ///*
+            string url = $"https://goweather.herokuapp.com/weather/London";
+            using (HttpResponseMessage response = await weatherApi.WeatherClient.GetAsync(url))
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = genTemp[index-1],
-                Summary = Summaries.Where(w => genTemp[index-1] >= w.Key).LastOrDefault().Value,
-            })
-            .ToArray();
+                if (response.IsSuccessStatusCode)
+                {
+                    WeatherForecast forecast = await response.Content.ReadAsAsync<WeatherForecast>();
+                    foreach (Forecast line in forecast.Forecast)
+                    {
+                        line.dayOfWeek = DateTime.Now.AddDays(line.day).DayOfWeek;
+                    }
+                    return forecast;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
         }
     }
 }

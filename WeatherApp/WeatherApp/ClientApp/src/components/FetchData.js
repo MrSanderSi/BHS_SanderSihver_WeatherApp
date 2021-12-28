@@ -13,30 +13,29 @@ export class FetchData extends Component {
     this.populateWeatherData();
   }
 
-  static renderForecastsTable(forecasts) {
+    static renderForecastsTable(forecasts) {
+        var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
-            <th>Date</th>
+            <th>Day</th>
             <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th>Wind</th>
           </tr>
         </thead>
-        <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.date}>
-              <td>{forecast.date}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
+            <tbody>
+            {forecasts.forecast.map(forecast =>
+                <tr key={forecast.day}>
+                <td>{weekDays[forecast.dayOfWeek]}</td>
+                <td>{forecast.temperature}</td>
+                <td>{forecast.wind}</td>
             </tr>
           )}
         </tbody>
       </table>
     );
-  }
+    }
 
   render() {
     let contents = this.state.loading
@@ -60,4 +59,5 @@ export class FetchData extends Component {
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
   }
+
 }

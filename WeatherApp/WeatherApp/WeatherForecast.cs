@@ -6,10 +6,17 @@ namespace WeatherApp
     {
         public DateTime Date { get; set; }
 
-        public int TemperatureC { get; set; }
+        public string Temperature { get; set; }
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public string Wind { get; set; }
 
         public string Summary { get; set; }
+        public Forecast[] Forecast { get; set; }
+
+
+        //{"temperature":"-4 °C","wind":"0 km/h","description":"Snow",
+        //"forecast":   [{"day":"1","temperature":"-6 °C","wind":"9 km/h"},
+        //              {"day":"2","temperature":"-3 °C","wind":"28 km/h"},
+        //              {"day":"3","temperature":"0 °C","wind":"21 km/h"}]}
     }
 }
