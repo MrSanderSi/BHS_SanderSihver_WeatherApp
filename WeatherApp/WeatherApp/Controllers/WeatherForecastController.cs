@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WeatherApp.Data.WebApi;
@@ -51,8 +50,8 @@ namespace WeatherApp.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<WeatherForecast> GetAsync(string City)
+        [HttpPost]
+        public async Task<WeatherForecast> GetAsync([FromBody] string? City)
         {
             WeatherApi weatherApi = new();
             weatherApi.InitializeClient();
@@ -73,7 +72,13 @@ namespace WeatherApp.Controllers
             //})
             //.ToArray();
             ///*
-            string url = $"https://goweather.herokuapp.com/weather/London";
+            string url = $"https://goweather.herokuapp.com/weather/{ City }";
+            if (City == null)
+            {
+                url = $"https://goweather.herokuapp.com/weather/{ "Tallinn" }";
+            }
+            
+
             using (HttpResponseMessage response = await weatherApi.WeatherClient.GetAsync(url))
             {
                 if (response.IsSuccessStatusCode)

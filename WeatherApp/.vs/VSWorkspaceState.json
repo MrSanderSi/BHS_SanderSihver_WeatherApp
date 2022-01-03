@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\WeatherApp",
+    "\\WeatherApp\\ClientApp",
+    "\\WeatherApp\\ClientApp\\src",
+    "\\WeatherApp\\ClientApp\\src\\components",
+    "\\WeatherApp\\Data",
+    "\\WeatherApp\\Data\\Migrations",
+    "\\WeatherApp\\Pages",
+    "\\WeatherApp\\Pages\\Shared",
+    "\\WeatherApp\\Properties"
+  ],
+  "SelectedNode": "\\WeatherApp.sln",
+  "PreviewInSolutionExplorer": false
+}

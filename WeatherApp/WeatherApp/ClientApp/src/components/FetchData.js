@@ -50,11 +50,21 @@ export class FetchData extends Component {
       </div>
     );
   }
+  
 
-  async populateWeatherData() {
-    const token = await authService.getAccessToken();
-    const response = await fetch('weatherforecast', {
-      headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
+    async populateWeatherData() {
+        var city = "Miami";
+        const token = await authService.getAccessToken();
+        const response = await fetch('weatherforecast', {
+            method: 'post',
+            headers: new Headers({ 
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }),
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify(city),
     });
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
