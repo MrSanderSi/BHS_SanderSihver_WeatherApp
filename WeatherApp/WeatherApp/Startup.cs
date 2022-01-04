@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using WeatherApp.Data;
 using WeatherApp.Models;
 
+
 namespace WeatherApp
 {
     public class Startup
@@ -26,6 +27,12 @@ namespace WeatherApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Enable CORS
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            });
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -41,6 +48,7 @@ namespace WeatherApp
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddControllers();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -56,6 +64,7 @@ namespace WeatherApp
         {
             if (env.IsDevelopment())
             {
+                app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }

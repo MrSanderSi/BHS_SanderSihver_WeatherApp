@@ -10,5 +10,13 @@ namespace WeatherApp.Models
         public int ID { get; set; }
         public string CityName { get; set; }
         public string CountryName { get; set; }
+
+        //public string FullInfo
+        //{
+        //    get
+        //    {
+        //        return $"{CityName } { CountryName }";
+        //    }
+        //}
     }
 }

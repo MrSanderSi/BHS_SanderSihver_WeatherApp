@@ -10,7 +10,7 @@ namespace WeatherApp
 
         public string Wind { get; set; }
 
-        public string Summary { get; set; }
+        public string Description { get; set; }
         public Forecast[] Forecast { get; set; }
 
 
