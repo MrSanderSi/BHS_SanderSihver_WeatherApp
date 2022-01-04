@@ -77,7 +77,7 @@ namespace WeatherApp.Controllers
             {
                 url = $"https://goweather.herokuapp.com/weather/{ "Tallinn" }";
             }
-            
+
 
             using (HttpResponseMessage response = await weatherApi.WeatherClient.GetAsync(url))
             {
